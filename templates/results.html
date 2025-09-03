@@ -1,0 +1,230 @@
+{% extends "base.html" %}
+
+{% block title %}Analysis Results - PropertyScope{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Header -->
+    <div class="row mb-5">
+        <div class="col">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="display-5 fw-bold text-primary mb-2">
+                        <i class="fas fa-chart-line me-3"></i>Property Analysis Results
+                    </h1>
+                    <p class="lead text-muted">{{ results.property_address or 'Property Analysis' }}</p>
+                </div>
+                <div>
+                    <a href="{{ url_for('generate_report', session_id=results.session_id) }}" 
+                       class="btn btn-primary btn-lg">
+                        <i class="fas fa-download me-2"></i>Download Report
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="row g-4 mb-5">
+        <div class="col-lg-3 col-md-6">
+            <div class="card bg-primary text-white h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-dollar-sign fa-3x mb-3"></i>
+                    <h3 class="mb-1">${{ "{:,.0f}".format(results.total_estimated_cost) }}</h3>
+                    <p class="mb-0">Total Estimated Cost</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="card bg-info text-white h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-exclamation-triangle fa-3x mb-3"></i>
+                    <h3 class="mb-1">{{ results.issues_found|length }}</h3>
+                    <p class="mb-0">Issues Identified</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="card bg-warning text-white h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-star fa-3x mb-3"></i>
+                    <h3 class="mb-1">{{ results.overall_condition_score }}/10</h3>
+                    <p class="mb-0">Property Score</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="card bg-success text-white h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-clock fa-3x mb-3"></i>
+                    <h3 class="mb-1">{{ results.estimated_timeline_weeks }}</h3>
+                    <p class="mb-0">Weeks to Complete</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Issues by Category -->
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-list-ul me-2"></i>Identified Issues
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% for category, issues in results.issues_by_category.items() %}
+                        {% if issues %}
+                        <div class="mb-4">
+                            <h6 class="text-primary fw-bold">
+                                {% if category == 'roof' %}
+                                    <i class="fas fa-home me-2"></i>Roof Issues
+                                {% elif category == 'siding' %}
+                                    <i class="fas fa-building me-2"></i>Siding Issues
+                                {% elif category == 'landscaping' %}
+                                    <i class="fas fa-seedling me-2"></i>Landscaping Issues
+                                {% elif category == 'hardscaping' %}
+                                    <i class="fas fa-road me-2"></i>Hardscaping Issues
+                                {% else %}
+                                    <i class="fas fa-exclamation-circle me-2"></i>{{ category.title() }} Issues
+                                {% endif %}
+                            </h6>
+                            <div class="row g-3">
+                                {% for issue in issues %}
+                                <div class="col-12">
+                                    <div class="issue-item p-3 border rounded">
+                                        <div class="d-flex justify-content-between align-items-start">
+                                            <div class="flex-grow-1">
+                                                <h6 class="mb-1">{{ issue.description }}</h6>
+                                                <div class="d-flex align-items-center mb-2">
+                                                    <span class="badge 
+                                                        {% if issue.severity == 'high' %}bg-danger
+                                                        {% elif issue.severity == 'medium' %}bg-warning
+                                                        {% else %}bg-info{% endif %} me-2">
+                                                        {{ issue.severity.title() }} Priority
+                                                    </span>
+                                                    <small class="text-muted">
+                                                        Confidence: {{ (issue.confidence * 100)|round }}%
+                                                    </small>
+                                                </div>
+                                                {% if issue.recommendation %}
+                                                <p class="mb-0 text-muted">
+                                                    <i class="fas fa-lightbulb me-1"></i>{{ issue.recommendation }}
+                                                </p>
+                                                {% endif %}
+                                            </div>
+                                            <div class="text-end ms-3">
+                                                <div class="fw-bold text-primary">${{ "{:,.0f}".format(issue.estimated_cost) }}</div>
+                                                {% if issue.cost_range %}
+                                                <small class="text-muted">${{ "{:,.0f}".format(issue.cost_range.min) }} - ${{ "{:,.0f}".format(issue.cost_range.max) }}</small>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Cost Breakdown -->
+        <div class="col-lg-4">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-chart-pie me-2"></i>Cost Breakdown
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="cost-breakdown">
+                        {% for category, cost in results.cost_breakdown.items() %}
+                            {% if cost > 0 %}
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div>
+                                    <h6 class="mb-0">{{ category.title().replace('_', ' ') }}</h6>
+                                    <small class="text-muted">
+                                        {{ ((cost / results.total_estimated_cost) * 100)|round }}% of total
+                                    </small>
+                                </div>
+                                <div class="text-primary fw-bold">${{ "{:,.0f}".format(cost) }}</div>
+                            </div>
+                            <div class="progress mb-3" style="height: 8px;">
+                                <div class="progress-bar" 
+                                     role="progressbar" 
+                                     style="width: {{ ((cost / results.total_estimated_cost) * 100)|round }}%">
+                                </div>
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Investment Analysis -->
+            <div class="card shadow-sm">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-calculator me-2"></i>Investment Analysis
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="investment-metrics">
+                        <div class="metric mb-3">
+                            <div class="d-flex justify-content-between">
+                                <span>Property Value Impact</span>
+                                <span class="text-success fw-bold">+${{ "{:,.0f}".format(results.potential_value_increase) }}</span>
+                            </div>
+                        </div>
+                        <div class="metric mb-3">
+                            <div class="d-flex justify-content-between">
+                                <span>ROI Estimate</span>
+                                <span class="text-primary fw-bold">{{ results.roi_percentage }}%</span>
+                            </div>
+                        </div>
+                        <div class="metric mb-3">
+                            <div class="d-flex justify-content-between">
+                                <span>Payback Period</span>
+                                <span class="fw-bold">{{ results.payback_years }} years</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <h6 class="text-primary">Recommendation</h6>
+                        <p class="mb-0">
+                            {% if results.roi_percentage > 20 %}
+                                <i class="fas fa-thumbs-up text-success me-2"></i>
+                                <strong>Excellent Investment</strong> - High ROI expected
+                            {% elif results.roi_percentage > 10 %}
+                                <i class="fas fa-thumbs-up text-warning me-2"></i>
+                                <strong>Good Investment</strong> - Moderate ROI expected
+                            {% else %}
+                                <i class="fas fa-exclamation-triangle text-warning me-2"></i>
+                                <strong>Consider Carefully</strong> - Lower ROI expected
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="row mt-5">
+        <div class="col text-center">
+            <a href="{{ url_for('generate_report', session_id=results.session_id) }}" 
+               class="btn btn-primary btn-lg me-3">
+                <i class="fas fa-file-pdf me-2"></i>Download Full Report
+            </a>
+            <a href="{{ url_for('upload_file') }}" class="btn btn-outline-primary btn-lg">
+                <i class="fas fa-plus me-2"></i>Analyze Another Property
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,196 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="hero-section">
+    <div class="container">
+        <div class="row align-items-center min-vh-75">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold text-primary mb-4">
+                    Transform Drone Photos into Cost Insights
+                </h1>
+                <p class="lead mb-4">
+                    Upload drone photos of any property and get AI-powered analysis of renovation costs, 
+                    maintenance needs, and investment potential. This is an internal application used for Developers like andrew to find out more details about people like Kelli Melvin. Skiddy already found out all necessary info freshman year.
+                </p>
+                <div class="d-grid gap-2 d-md-flex">
+                    <a href="{{ url_for('upload_file') }}" class="btn btn-primary btn-lg px-4 me-md-2">
+                        <i class="fas fa-upload me-2"></i>Start Analysis
+                    </a>
+                    <button class="btn btn-outline-primary btn-lg px-4" data-bs-toggle="modal" data-bs-target="#demoModal">
+                        <i class="fas fa-play me-2"></i>View Demo
+                    </button>
+                </div>
+            </div>
+            <div class="col-lg-6 text-center">
+                <div class="hero-image">
+                    <i class="fas fa-drone hero-icon"></i>
+                    <div class="floating-cards">
+                        <div class="analysis-card card-1">
+                            <i class="fas fa-home"></i>
+                            <span>Property Analysis</span>
+                        </div>
+                        <div class="analysis-card card-2">
+                            <i class="fas fa-dollar-sign"></i>
+                            <span>Cost Estimation</span>
+                        </div>
+                        <div class="analysis-card card-3">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Investment ROI</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Features Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col">
+                <h2 class="display-5 fw-bold mb-3">How It Works</h2>
+                <p class="lead">Three simple steps to get professional property analysis</p>
+            </div>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-card h-100">
+                    <div class="feature-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <h4>1. Upload Photos</h4>
+                    <p>Upload high-quality drone photos of the property from multiple angles.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card h-100">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h4>2. AI Analysis</h4>
+                    <p>Our advanced AI analyzes roof condition, landscaping, structures, and maintenance needs.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card h-100">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <h4>3. Get Report</h4>
+                    <p>Receive a detailed PDF report with cost estimates and priority recommendations.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Analysis Categories -->
+<section class="py-5">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col">
+                <h2 class="display-5 fw-bold mb-3">What We Analyze</h2>
+                <p class="lead">Comprehensive property assessment across multiple categories</p>
+            </div>
+        </div>
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-6">
+                <div class="analysis-category">
+                    <div class="category-icon bg-danger">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <h5>Roof Condition</h5>
+                    <ul class="list-unstyled">
+                        <li>Missing shingles</li>
+                        <li>Damage assessment</li>
+                        <li>Age evaluation</li>
+                        <li>Gutter condition</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="analysis-category">
+                    <div class="category-icon bg-warning">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <h5>Exterior Siding</h5>
+                    <ul class="list-unstyled">
+                        <li>Siding condition</li>
+                        <li>Paint quality</li>
+                        <li>Structural issues</li>
+                        <li>Window condition</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="analysis-category">
+                    <div class="category-icon bg-success">
+                        <i class="fas fa-seedling"></i>
+                    </div>
+                    <h5>Landscaping</h5>
+                    <ul class="list-unstyled">
+                        <li>Lawn condition</li>
+                        <li>Tree health</li>
+                        <li>Garden maintenance</li>
+                        <li>Irrigation needs</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="analysis-category">
+                    <div class="category-icon bg-info">
+                        <i class="fas fa-road"></i>
+                    </div>
+                    <h5>Hardscaping</h5>
+                    <ul class="list-unstyled">
+                        <li>Driveway condition</li>
+                        <li>Walkway cracks</li>
+                        <li>Fence integrity</li>
+                        <li>Pool condition</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-5 bg-primary text-white">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col">
+                <h2 class="display-5 fw-bold mb-3">Ready to Get Started?</h2>
+                <p class="lead mb-4">Upload your drone photos and get professional property analysis in minutes.</p>
+                <a href="{{ url_for('upload_file') }}" class="btn btn-light btn-lg px-4">
+                    <i class="fas fa-rocket me-2"></i>Analyze Your Property Now
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Demo Modal -->
+<div class="modal fade" id="demoModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">PropertyScope Demo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="ratio ratio-16x9">
+                    <div class="d-flex align-items-center justify-content-center bg-light">
+                        <div class="text-center">
+                            <i class="fas fa-play-circle fa-5x text-primary mb-3"></i>
+                            <h4>Demo Video Coming Soon</h4>
+                            <p>See how PropertyScope analyzes drone photos to generate detailed cost reports.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
