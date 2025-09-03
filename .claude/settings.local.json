@@ -10,7 +10,8 @@
       "Bash(rm:*)",
       "Bash(npm install:*)",
       "Bash(vercel:*)",
-      "Bash(mkdir:*)"
+      "Bash(mkdir:*)",
+      "Bash(git rm:*)"
     ],
     "deny": [],
     "ask": []
