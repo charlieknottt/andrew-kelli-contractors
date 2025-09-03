@@ -123,6 +123,10 @@ The system identifies issues like:
 - Advanced damage detection algorithms
 - Historical property analysis
 
+## Live Demo
+
+Deployed on Vercel: Coming soon...
+
 ## Support
 
 This is an MVP demonstration. For production use, consider:
