@@ -6,7 +6,11 @@
       "Bash(git init:*)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(rm:*)",
+      "Bash(npm install:*)",
+      "Bash(vercel:*)",
+      "Bash(mkdir:*)"
     ],
     "deny": [],
     "ask": []

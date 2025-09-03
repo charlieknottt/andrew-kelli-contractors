@@ -181,13 +181,14 @@
             </div>
             <div class="modal-body">
                 <div class="ratio ratio-16x9">
-                    <div class="d-flex align-items-center justify-content-center bg-light">
-                        <div class="text-center">
-                            <i class="fas fa-play-circle fa-5x text-primary mb-3"></i>
-                            <h4>Demo Video Coming Soon</h4>
-                            <p>See how PropertyScope analyzes drone photos to generate detailed cost reports.</p>
-                        </div>
-                    </div>
+                    <video controls class="w-100 h-100">
+                        <source src="{{ url_for('static', filename='videos/demo-video.mov') }}" type="video/quicktime">
+                        <source src="{{ url_for('static', filename='videos/demo-video.mov') }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <div class="mt-3">
+                    <p class="text-muted small">Demo: PropertyScope in action - analyzing drone photos to generate detailed cost reports.</p>
                 </div>
             </div>
         </div>
